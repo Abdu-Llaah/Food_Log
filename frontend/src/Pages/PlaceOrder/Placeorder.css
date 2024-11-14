@@ -12,7 +12,7 @@
 .place-order-left .title{
     font-size: 30px;
     font-weight: 600;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
 }
 .place-order-left input{
     margin-bottom: 15px;
@@ -27,9 +27,9 @@
     gap: 10px;
 }
 .place-order-right{
-    width: 300px;
+    width: 100px;
     max-width: max(40%,500px);
 }
 .place-order .cart-total button{
-    margin-top: 15px;
+    margin-top: 30px;
 }

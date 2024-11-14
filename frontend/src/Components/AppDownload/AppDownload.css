@@ -1,4 +1,4 @@
-.app-donwload{
+.app-download{
     margin: auto auto ;
     margin-top: 100px;
     font-size: max(3vw, 20px);
@@ -12,9 +12,8 @@
     margin-top: 40px;
 }
 .app-download-platforms img{
-    width: max(20vw, 120px);
+    width: max(30vw, 120px);
     max-width: 180px;
-    height: 110px;
     transition: 0.5s;
     cursor: pointer;
 }

@@ -1,4 +1,5 @@
-import React, { useContext, useEffect } from 'react'; // Import necessary modules from React and other libraries
+// import React fromt 'react'
+import  { useContext, useEffect } from 'react'; // Import necessary modules from React and other libraries
 import './Verify.css'; // Import the CSS file for styling
 import { useNavigate, useSearchParams } from 'react-router-dom'; // Import useNavigate and useSearchParams from react-router-dom for navigation and URL parameters
 import { StoreContext } from '../../Context/StoreContext'; // Import the StoreContext for state management

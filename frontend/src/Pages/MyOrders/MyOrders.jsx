@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'; // Import necessary modules from React and other libraries
+// import React from 'react'
+import { useContext, useEffect, useState } from 'react'; // Import necessary modules from React and other libraries
 import './MyOrders.css'; // Import the CSS file for styling
 import { StoreContext } from '../../Context/StoreContext'; // Import the StoreContext for state management
 import axios from 'axios'; // Import axios for making HTTP requests
