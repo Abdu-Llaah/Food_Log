@@ -1,5 +1,5 @@
 import mongoose from "mongoose"; // Import mongoose for MongoDB connection
-import { Unique } from "typeorm"; // Import Unique from typeorm (though it's not used in this code)
+//import { Unique } from "typeorm"; // Import Unique from typeorm (though it's not used in this code)
 
 // Define the schema for the users
 const userSchema = new mongoose.Schema({

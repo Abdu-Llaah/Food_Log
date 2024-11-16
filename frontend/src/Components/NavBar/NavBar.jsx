@@ -8,7 +8,7 @@ import { StoreContext } from '../../Context/StoreContext'; // Import the StoreCo
 const NavBar = ({ setShowLogin }) => {
   const [menu, setMenu] = useState("home"); // State to manage the active menu item
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false); // State to manage profile dropdown visibility
-  const { getTotalCartAmount, token, setToken } = useContext(StoreContext); // Use the StoreContext to access cart amount, token, and setToken
+  const { getTotalCartAmount, token, setToken, cartItems } = useContext(StoreContext); // Use the StoreContext to access cart amount, token, and setToken
   const navigate = useNavigate(); // Hook to navigate programmatically
 
   // Handler for logging out
@@ -22,6 +22,8 @@ const NavBar = ({ setShowLogin }) => {
   const toggleProfileDropdown = () => {
     setIsProfileDropdownOpen(prev => !prev); // Toggle the profile dropdown
   };
+
+  console.log('object', cartItems, cartItems?.length)
 
   return (
     <div className='navbar'>
@@ -54,7 +56,7 @@ const NavBar = ({ setShowLogin }) => {
           <Link to='/Cart'>
             <img src={assets.basket_icon} alt='Basket Icon' />
           </Link>
-          {getTotalCartAmount() > 0 && <div className="dot"></div>}
+          {cartItems?.length > 0 && <div className="dot">{cartItems?.length}</div>}
         </div>
 
         {!token ? (
