@@ -25,7 +25,11 @@ const StoreContextProvider = (props) => {
     });
 
     if (token) {
-      await axios.post(url + '/api/cart/add', { productId: product.id }, { headers: { token } });
+      try {
+        await axios.post(url + '/api/cart/add', { productId: product.id }, { headers: { token } });
+      } catch (error) {
+        console.error('Error adding to cart:', error);
+      }
     }
   };
 
@@ -45,7 +49,11 @@ const StoreContextProvider = (props) => {
     });
 
     if (token) {
-      await axios.post(url + '/api/cart/remove', { productId }, { headers: { token } });
+      try {
+        await axios.post(url + '/api/cart/remove', { productId }, { headers: { token } });
+      } catch (error) {
+        console.error('Error removing from cart:', error);
+      }
     }
   };
 
@@ -55,15 +63,17 @@ const StoreContextProvider = (props) => {
   };
 
   // Fetch food list
-  const fetchFoodList = async () => {
-    try {
-      const response = await axios.get(url + '/api/food/list');
-      setFoodList(response.data.data);
-      console.log('Fetched food list:', response.data.data);
-    } catch (error) {
-      console.error('Error fetching food list:', error);
-    }
-  };
+const fetchFoodList = async () => {
+  try {
+    const response = await axios.get(url + '/api/food/list');
+    setFoodList(response.data.data);
+    console.log('Fetched food list:', response.data.data);
+  } catch (error) {
+    console.error('Error fetching food list:', error.message);
+    // Handle the error gracefully, e.g., show a message to the user
+  }
+};
+
 
   // Load cart data from server
   const loadCartData = async (token) => {

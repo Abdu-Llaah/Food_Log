@@ -1,4 +1,3 @@
-//use to display the cart page 
 import { useContext } from 'react'; // Import necessary modules from React and other libraries
 import './cart.css'; // Import the CSS file for styling
 import { StoreContext } from '../../Context/StoreContext'; // Import the StoreContext for state management
@@ -26,7 +25,8 @@ const Cart = () => {
         <hr />
         {/* Map through the food list and display items that are in the cart */}
         {food_list.map((item) => {
-          if (cartItems[item._id] > 0) {
+          const cartItem = cartItems.find(cartItem => cartItem.id === item._id);
+          if (cartItem) {
             return (
               <div key={item._id}>
                 <div className='cart-items-title cart-items-item'>
@@ -37,9 +37,9 @@ const Cart = () => {
                   {/* Display the item price */}
                   <p>${item.price}</p>
                   {/* Display the item quantity */}
-                  <p>{cartItems[item._id]}</p>
+                  <p>{cartItem.quantity}</p>
                   {/* Display the total price for the item */}
-                  <p>${item.price * cartItems[item._id]}</p>
+                  <p>${item.price * cartItem.quantity}</p>
                   {/* Display the remove button */}
                   <p onClick={() => removeFromCart(item._id)} className='cross'>x</p>
                 </div>
@@ -47,6 +47,7 @@ const Cart = () => {
               </div>
             );
           }
+          return null; // Ensure something is always returned
         })}
       </div>
       <div className="cart-bottom">

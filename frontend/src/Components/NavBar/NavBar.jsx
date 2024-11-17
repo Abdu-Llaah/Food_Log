@@ -7,7 +7,6 @@ import { StoreContext } from '../../Context/StoreContext'; // Import the StoreCo
 // Define the NavBar component with props
 const NavBar = ({ setShowLogin }) => {
   const [menu, setMenu] = useState("home"); // State to manage the active menu item
-  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false); // State to manage profile dropdown visibility
   const { getTotalCartAmount, token, setToken, cartItems } = useContext(StoreContext); // Use the StoreContext to access cart amount, token, and setToken
   const navigate = useNavigate(); // Hook to navigate programmatically
 
@@ -16,11 +15,6 @@ const NavBar = ({ setShowLogin }) => {
     localStorage.removeItem("token"); // Remove the token from local storage
     setToken(null); // Clear the token in the context
     navigate("/"); // Navigate to the home page
-  };
-
-  // Handler to toggle the profile dropdown
-  const toggleProfileDropdown = () => {
-    setIsProfileDropdownOpen(prev => !prev); // Toggle the profile dropdown
   };
 
   console.log('object', cartItems, cartItems?.length)
@@ -62,21 +56,10 @@ const NavBar = ({ setShowLogin }) => {
         {!token ? (
           <button onClick={() => setShowLogin(true)}>Sign In</button>
         ) : (
-          <div className='navbar-profile' onMouseLeave={() => setIsProfileDropdownOpen(false)}>
-            <img src={assets.profile_icon} alt="Profile Icon" onClick={toggleProfileDropdown} />
-            {isProfileDropdownOpen && (
-              <ul className="nav-profile-dropdown">
-                <li onClick={() => navigate('/myorders')} key="orders">
-                  <img src={assets.bag_icon} alt="Bag Icon" />
-                  <p>Orders</p>
-                </li>
-                <hr />
-                <li key="logout" onClick={handleLogout}>
-                  <img src={assets.logout_icon} alt="Logout Icon" />
-                  <p>Logout</p>
-                </li>
-              </ul>
-            )}
+          <div className='navbar-profile'>
+            <img src={assets.profile_icon} alt="Profile Icon" />
+            <img src={assets.bag_icon} alt="Bag Icon" className="profile-icon" onClick={() => navigate('/myorders')} />
+            <img src={assets.logout_icon} alt="Logout Icon" className="profile-icon" onClick={handleLogout} />
           </div>
         )}
       </div>
