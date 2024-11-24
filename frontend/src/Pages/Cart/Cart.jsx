@@ -9,6 +9,8 @@ const Cart = () => {
 
   const navigate = useNavigate(); // Hook to navigate programmatically
 
+  console.log(cartItems)
+
   return (
     <div className='cart'>
       <div className="cart-items">
