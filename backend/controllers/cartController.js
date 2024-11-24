@@ -2,6 +2,7 @@ import userModel from "../models/userModel.js"; // Import the user model
 
 // Add items to user cart
 const addToCart = async (req, res) => {
+  //console.log('object', req.body)
   try {
     let userData = await userModel.findById(req.body.userId); // Find the user by ID
     let cartData = userData.cartData; // Get the user's cart data
@@ -10,7 +11,9 @@ const addToCart = async (req, res) => {
     } else {
       cartData[req.body.itemId] += 1; // Increase quantity if item already exists
     }
-    await userModel.findByIdAndUpdate(req.body.userId, { cartData }); // Update the user's cart data
+    const updatedUser = await userModel.findByIdAndUpdate(req.body.userId, { cartData }); // Update the user's cart data
+    
+    console.log('userData', userData, 'updatedUser', updatedUser)
     res.json({ success: true, message: "Added to Cart" }); // Send success response
   } catch (error) {
     console.log(error);

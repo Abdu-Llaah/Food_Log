@@ -6,24 +6,26 @@ export const StoreContext = createContext(null);
 const StoreContextProvider = (props) => {
   const [cartItems, setCartItems] = useState([]);
   const [food_list, setFoodList] = useState([]);
-  const [token, setToken] = useState('');
+  const getToken = localStorage.getItem('token')
+  const [token, setToken] = useState(getToken || '');
   const url = 'http://localhost:4000';
 
   // Add to cart
   const addToCart = async (product) => {
     setCartItems((prev) => {
-      const existingItem = prev.find((item) => item.id === product.id);
+      const cartArray = Array.isArray(prev) ? prev : [];
+      const existingItem = cartArray.find((item) => item.id === product.id);
       if (existingItem) {
-        return prev.map((item) =>
+        return cartArray.map((item) =>
           item.id === product.id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       } else {
-        return [...prev, { ...product, quantity: 1 }];
+        return [...cartArray, { ...product, quantity: 1 }];
       }
     });
-
+  
     if (token) {
       try {
         await axios.post(url + '/api/cart/add', { productId: product.id }, { headers: { token } });
@@ -32,6 +34,7 @@ const StoreContextProvider = (props) => {
       }
     }
   };
+  
 
   // Remove from cart
   const removeFromCart = async (productId) => {

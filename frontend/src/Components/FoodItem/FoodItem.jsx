@@ -1,13 +1,12 @@
-// import React from 'react'
 import { useContext } from 'react';
 import './FoodItem.css';
 import { assets } from '../../assets/assets';
 import { StoreContext } from '../../Context/StoreContext';
-import { Link } from 'react-router-dom';
 
 const FoodItem = ({ id, name, price, description, image }) => {
   const { cartItems, addToCart, removeFromCart } = useContext(StoreContext);
-  const itemCount = cartItems.find((item) => item.id === id)?.quantity || 0;
+  const itemData = Array.isArray(cartItems) ? cartItems : [];
+  const itemCount = itemData.find((item) => item.id === id)?.quantity || 0;
 
   const data = { id, name, price, description, image };
 
@@ -34,11 +33,11 @@ const FoodItem = ({ id, name, price, description, image }) => {
               alt="Remove item"
             />
             <p>{itemCount}</p>
-              <img
-                onClick={handleClick}
-                src={assets.add_icon_green}
-                alt="Add more item"
-              />
+            <img
+              onClick={handleClick}
+              src={assets.add_icon_green}
+              alt="Add more item"
+            />
           </div>
         )}
       </div>

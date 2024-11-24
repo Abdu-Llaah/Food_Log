@@ -31,30 +31,33 @@ const Cart = () => {
         <hr />
         {/* Map through the food list and display items that are in the cart */}
         {
-          cartItems?.length < 1 ? (
-            <div className="error">
-              <p>No Items in Cart</p>
-            </div>
-          ) : (
-            cartItems.map((item) => (
-              <div key={item.id}>
-                <div className='cart-items-title cart-items-item'>
-                  {/* Display the item image */}
-                  <img src={`${item.image}`} alt={item.name} />
-                  {/* Display the item name */}
-                  <p>{item.name}</p>
-                  {/* Display the item price */}
-                  <p>${item.price}</p>
-                  {/* Display the item quantity */}
-                  <p>{item.quantity}</p>
-                  {/* Display the total price for the item */}
-                  <p>${item.price * item.quantity}</p>
-                  {/* Display the remove button */}
-                  <p onClick={() => removeFromCart(item.id)} className='cross'>x</p>
-                </div>
-                <hr />
+          cartItems && (
+            cartItems?.length < 1 ? (
+              <div className="error">
+                <p>No Items in Cart</p>
               </div>
-        ))
+            ) : (
+              cartItems?.map((item) => (
+                <div key={item.id}>
+                  <div className='cart-items-title cart-items-item'>
+                    {/* Display the item image */}
+                    <img src={`${item.image}`} alt={item.name} />
+                    {/* Display the item name */}
+                    <p>{item.name}</p>
+                    {/* Display the item price */}
+                    <p>${item.price}</p>
+                    {/* Display the item quantity */}
+                    <p>{item.quantity}</p>
+                    {/* Display the total price for the item */}
+                    <p>${item.price * item.quantity}</p>
+                    {/* Display the remove button */}
+                    <p onClick={() => removeFromCart(item.id)} className='cross'>x</p>
+                  </div>
+                  <hr />
+                </div>
+          ))
+            )
+
           )
         }
       </div>
@@ -81,7 +84,7 @@ const Cart = () => {
             </div>
           </div>
           {/* Button to proceed to checkout */}
-          <Link className='button' to='/order' >PROCEED TO CHECKOUT</Link>
+          <Link className='button' to={`/order`} >PROCEED TO CHECKOUT</Link>
         </div>
         <div className="cart-promocode">
           <div>

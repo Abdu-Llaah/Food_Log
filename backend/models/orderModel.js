@@ -8,7 +8,8 @@ const orderSchema = new mongoose.Schema({
   address: { type: Object, required: true }, // Address object, required
   status: { type: String, default: "Food Processing" }, // Order status, default is "Food Processing"
   date: { type: Date, default: Date.now() }, // Order date, default is current date
-  payment: { type: Boolean, default: false } // Payment status, default is false
+  payment: { type: Boolean, default: false }, // Payment status, default is false
+  paymentRefrence: { type: String,}
 });
 
 // Create the order model if it doesn't already exist

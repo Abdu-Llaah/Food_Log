@@ -6,6 +6,7 @@ const orderRouter = express.Router(); // Create a new router
 
 // Define the routes for order operations with authentication middleware where necessary
 orderRouter.post("/place", authMiddleWare, placeOrder); // Route to place an order
+//orderRouter.post("/place", placeOrder); // Route to place an order
 orderRouter.post("/verify", verifyOrder); // Route to verify an order
 orderRouter.post("/userorders", authMiddleWare, userOrders); // Route to get user orders
 orderRouter.get("/list", listOrders); // Route to list all orders

@@ -6,8 +6,12 @@ const paystack = new Paystack(process.env.Paystack_SECRET_KEY); // Initialize Pa
 
 // Placing user order for frontend
 const placeOrder = async (req, res) => {
+  console.log(req.body)
   const frontend_url = "http://localhost:5174"; // URL for the frontend
-
+  const { firstName, lastName, phoneNumber, country, city, state, street, email } = req.body.address
+  if(!firstName || !lastName || !phoneNumber || !country || !city || !state || !street || !email ){
+    return res.status(400).json({ success: false, data: 'Fill all fields in the address' })
+  }
   try {
     const newOrder = new orderModel({
       userId: req.body.userId,
@@ -40,17 +44,21 @@ const placeOrder = async (req, res) => {
       quantity: 1,
     });
 
-    const session = await paystack.checkout.session.create({
-      line_items: line_items,
-      mode: 'payment',
-      success_url: `${frontend_url}/verify?success=true&orderId=${newOrder._id}`,
-      cancel_url: `${frontend_url}/verify?success=false&orderId=${newOrder._id}`,
+    const session = await paystack.transaction.initialize({
+      amount: Number(req.body.amount * 100),
+      email: email,
+      callback_url: `${frontend_url}/verify?success=true&orderId=${newOrder._id}`,
+      //cancel_url: `${frontend_url}/verify?success=false&orderId=${newOrder._id}`,
     });
-    res.json({ success: true, session_url: session.url }); // Send success response with session URL
+
+    //newOrder.paymentRefrence= session.data.authorization_url
+
+    console.log('object session', session.data.authorization_url)
+    //res.json({ success: true, session_url: session.url }); // Send success response with session URL
 
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: "Error" }); // Send error response
+    res.status(500).json({ success: false, message: "Error" }); // Send error response
   }
 };
 
@@ -67,7 +75,7 @@ const verifyOrder = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: "Error" }); // Send error response
+    res.status(500).json({ success: false, message: "Error" }); // Send error response
   }
 };
 
