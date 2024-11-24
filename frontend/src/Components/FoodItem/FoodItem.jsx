@@ -34,13 +34,11 @@ const FoodItem = ({ id, name, price, description, image }) => {
               alt="Remove item"
             />
             <p>{itemCount}</p>
-            <Link to="/Cart">
               <img
                 onClick={handleClick}
                 src={assets.add_icon_green}
                 alt="Add more item"
               />
-            </Link>
           </div>
         )}
       </div>

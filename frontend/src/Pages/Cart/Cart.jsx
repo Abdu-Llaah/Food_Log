@@ -1,7 +1,7 @@
 import { useContext } from 'react'; // Import necessary modules from React and other libraries
 import './cart.css'; // Import the CSS file for styling
 import { StoreContext } from '../../Context/StoreContext'; // Import the StoreContext for state management
-import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom for navigation
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom for navigation
 
 // Define the Cart component
 const Cart = () => {
@@ -9,7 +9,11 @@ const Cart = () => {
 
   const navigate = useNavigate(); // Hook to navigate programmatically
 
-  console.log(cartItems)
+  console.log('cartItems', cartItems)
+
+  const handleNavigateToOrder = () => {
+    navigate('/order')
+  }
 
   return (
     <div className='cart'>
@@ -26,31 +30,33 @@ const Cart = () => {
         <br />
         <hr />
         {/* Map through the food list and display items that are in the cart */}
-        {food_list.map((item) => {
-          const cartItem = cartItems.find(cartItem => cartItem.id === item._id);
-          if (cartItem) {
-            return (
-              <div key={item._id}>
+        {
+          cartItems?.length < 1 ? (
+            <div className="error">
+              <p>No Items in Cart</p>
+            </div>
+          ) : (
+            cartItems.map((item) => (
+              <div key={item.id}>
                 <div className='cart-items-title cart-items-item'>
                   {/* Display the item image */}
-                  <img src={`${url}/images/${item.image}`} alt={item.name} />
+                  <img src={`${item.image}`} alt={item.name} />
                   {/* Display the item name */}
                   <p>{item.name}</p>
                   {/* Display the item price */}
                   <p>${item.price}</p>
                   {/* Display the item quantity */}
-                  <p>{cartItem.quantity}</p>
+                  <p>{item.quantity}</p>
                   {/* Display the total price for the item */}
-                  <p>${item.price * cartItem.quantity}</p>
+                  <p>${item.price * item.quantity}</p>
                   {/* Display the remove button */}
-                  <p onClick={() => removeFromCart(item._id)} className='cross'>x</p>
+                  <p onClick={() => removeFromCart(item.id)} className='cross'>x</p>
                 </div>
                 <hr />
               </div>
-            );
-          }
-          return null; // Ensure something is always returned
-        })}
+        ))
+          )
+        }
       </div>
       <div className="cart-bottom">
         <div className="cart-total">
@@ -75,7 +81,7 @@ const Cart = () => {
             </div>
           </div>
           {/* Button to proceed to checkout */}
-          <button onClick={() => navigate('/order')}>PROCEED TO CHECKOUT</button>
+          <Link className='button' to='/order' >PROCEED TO CHECKOUT</Link>
         </div>
         <div className="cart-promocode">
           <div>

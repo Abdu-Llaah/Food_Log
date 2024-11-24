@@ -60,6 +60,7 @@ const PlaceOrder = () => {
   // useEffect to handle redirection if token is not available or cart is empty
   useEffect(() => {
     if (!token) {
+      //navigate('/cart');
       navigate('/cart');
     } else if (getTotalCartAmount() === 0) {
       navigate('/cart');

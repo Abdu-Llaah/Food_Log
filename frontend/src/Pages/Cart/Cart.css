@@ -43,7 +43,7 @@
 .cart-total hr{
     margin: 10px 0px;
 }
-.cart-total button{
+.cart-total .button{
     border: none;
     color: white;
     background-color: tomato;
@@ -51,6 +51,7 @@
     padding: 12px 0px;
     border-radius: 4px;
     cursor: pointer;
+    text-align: center;
 }
 .cart-promocode{
     flex: 1;
@@ -79,6 +80,15 @@
     border: none;
     color: white;
     border-radius: 4px;
+}
+.cart .error{
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+    font-weight: 700;
+    color: #ff4c24;
 }
 @media (max-width:750px) {
     .cart-bottom{
