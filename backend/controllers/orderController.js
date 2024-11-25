@@ -1,12 +1,11 @@
 import orderModel from "../models/orderModel.js"; // Import the order model
 import userModel from "../models/userModel.js"; // Import the user model
 import Paystack from "paystack"; // Import Paystack for payment processing
-
+import axios from 'axios'
 const paystack = new Paystack(process.env.Paystack_SECRET_KEY); // Initialize Paystack with the secret key
 
 // Placing user order for frontend
 const placeOrder = async (req, res) => {
-  console.log(req.body)
   const frontend_url = "http://localhost:5174"; // URL for the frontend
   const { firstName, lastName, phoneNumber, country, city, state, street, email } = req.body.address
   if(!firstName || !lastName || !phoneNumber || !country || !city || !state || !street || !email ){
@@ -22,39 +21,30 @@ const placeOrder = async (req, res) => {
     await newOrder.save(); // Save the new order
     await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} }); // Clear the user's cart
 
-    const line_items = req.body.items.map((item) => ({
-      price_data: {
-        currency: "inr",
-        product_data: {
-          name: item.name,
-        },
-        unit_amount: item.price * 100 * 80, // Convert price to smallest currency unit
+    // Initialize Paystack transaction
+    const paystackResponse = await axios.post(
+      "https://api.paystack.co/transaction/initialize",
+      {
+        amount: req.body.amount * 100, // Amount in kobo
+        email: email,
+        callback_url: `${frontend_url}/verify?success=true&orderId=${newOrder._id}`,
       },
-      quantity: item.quantity,
-    }));
-
-    line_items.push({
-      price_data: {
-        currency: "inr",
-        product_data: {
-          name: "Delivery Charges",
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+          "Content-Type": "application/json",
         },
-        unit_amount: 2 * 100 * 80, // Add delivery charges
-      },
-      quantity: 1,
-    });
+      }
+    );
+    
+    const { data } = paystackResponse;
+    console.log('object data',data)
 
-    const session = await paystack.transaction.initialize({
-      amount: Number(req.body.amount * 100),
-      email: email,
-      callback_url: `${frontend_url}/verify?success=true&orderId=${newOrder._id}`,
-      //cancel_url: `${frontend_url}/verify?success=false&orderId=${newOrder._id}`,
-    });
+    newOrder.paymentRefrence= data?.data?.reference
+    await newOrder.save()
 
-    //newOrder.paymentRefrence= session.data.authorization_url
-
-    console.log('object session', session.data.authorization_url)
-    //res.json({ success: true, session_url: session.url }); // Send success response with session URL
+    //console.log('object session', data?.data?.authorization_url)
+    res.json({ success: true, session_url: data?.data?.authorization_url }); // Send success response with session URL
 
   } catch (error) {
     console.log(error);
@@ -83,6 +73,7 @@ const verifyOrder = async (req, res) => {
 const userOrders = async (req, res) => {
   try {
     const orders = await orderModel.find({ userId: req.body.userId }); // Find orders by user ID
+    console.log('objects', orders)
     res.json({ success: true, data: orders }); // Send success response with orders data
   } catch (error) {
     console.log(error);

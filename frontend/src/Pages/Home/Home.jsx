@@ -1,5 +1,3 @@
-// Import necessary components and styles
-//Use to display the home page
 import Header from '../../Components/Header/Header';
 import './home.css';
 import ExploreMenu from '../../Components/ExploreMenu/ExploreMenu';
@@ -16,14 +14,23 @@ const Home = () => {
       {/* Header component */}
       <Header />
 
-      {/* ExploreMenu component, passing the category state and setter */}
-      <ExploreMenu category={category} setCategory={setCategory} />
+      <div id="menu">
+        {/* ExploreMenu component, passing the category state and setter */}
+        <ExploreMenu category={category} setCategory={setCategory} />
 
-      {/* FoodDisplay component, passing the category state */}
-      <FoodDisplay category={category} />
+        {/* FoodDisplay component, passing the category state */}
+        <FoodDisplay category={category} />
+      </div>
 
-      {/* AppDownload component */}
-      <AppDownload />
+      <div id="mobile-app">
+        <AppDownload />
+      </div>
+
+      <div id="contact-us">
+        {/* Add your contact us section */}
+        <h2>Contact Us</h2>
+        <p>Details here...</p>
+      </div>
     </div>
   );
 };

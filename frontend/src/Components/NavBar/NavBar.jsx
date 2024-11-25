@@ -28,18 +28,19 @@ const NavBar = ({ setShowLogin }) => {
 
       {/* Navigation Menu */}
       <ul className="navbar-menu">
-        {["home", "menu", "mobile-app", "contact-us"].map((item) => (
-          <li key={item}>
-            <Link 
-              to={item === "home" ? '/' : `#${item}`}
-              onClick={() => setMenu(item)}
-              className={menu === item ? "active" : ""}
-            >
-              {item.charAt(0).toUpperCase() + item.slice(1).replace("-", " ")}
-            </Link>
-          </li>
-        ))}
-      </ul>
+  {["home", "menu", "mobile-app", "contact-us"].map((item) => (
+    <li key={item}>
+      <Link 
+        to={item === "home" ? '/' : `#${item}`}
+        onClick={() => setMenu(item)}
+        className={menu === item ? "active" : ""}
+      >
+        {item.charAt(0).toUpperCase() + item.slice(1).replace("-", " ")}
+      </Link>
+    </li>
+  ))}
+</ul>
+
 
       {/* Right-side Icons */}
       <div className="navbar-right">

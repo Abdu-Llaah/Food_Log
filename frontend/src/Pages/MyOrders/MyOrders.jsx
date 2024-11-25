@@ -7,12 +7,11 @@ import { assets } from '../../assets/assets'; // Import assets
 
 // Define the MyOrders component
 const MyOrders = () => {
-  const { url, token } = useContext(StoreContext); // Use the StoreContext to access url and token
   const [data, setData] = useState([]); // State to manage the list of orders
-
+  const token = localStorage.getItem('token')
   // Function to fetch orders from the API
   const fetchOrders = async () => {
-    const response = await axios.post(url + "api/order/uderorders", {}, { headers: { token } });
+    const response = await axios.post("http://localhost:4000/api/order/userorders", {}, { headers: { token } });
     setData(response.data.data);
     console.log(response.data.data);
   };
@@ -28,7 +27,7 @@ const MyOrders = () => {
     <div className='my-orders'>
       <h2>My Orders</h2>
       <div className="container">
-        {data.map((order, index) => {
+        {data?.map((order, index) => {
           return (
             <div key={index} className='my-orders-order'>
               {/* Display the parcel icon */}
@@ -47,6 +46,8 @@ const MyOrders = () => {
               <p>${order.amount}.00</p>
               {/* Display the number of items in the order */}
               <p>Items: {order.items.length}</p>
+              {/* Payment refrence */}
+              <p>Payment ID: {order?.paymentRefrence}</p>
               {/* Display the order status */}
               <p><span>&#x25cf;</span><b>{order.status}</b></p>
               {/* Button to track the order */}
